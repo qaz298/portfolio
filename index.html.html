@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kim Bian 2026 作品集</title>
+    <style>
+        /* ============================================
+           基础重置与全局样式
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M10 18l-1.45-1.32C3.4 12.36 0 9.28 0 5.5 0 2.42 2.42 0 5.5 0 7.24 0 8.91.81 10 2.09 11.09.81 12.76 0 14.5 0 17.58 0 20 2.42 20 5.5c0 3.78-3.4 6.86-8.55 11.18L10 18z" fill="black"/></svg>') 10 18, auto;
+        }
+
+        /* ============================================
+           颜色变量定义
+           ============================================ */
+        :root {
+            --neon-pink: #e24392;
+            --lime-green: #D4FF55;
+            --black: #000000;
+        }
+
+        /* ============================================
+           全屏页面通用样式
+           ============================================ */
+        section {
+            width: 100vw;
+            height: 100vh;
+            min-height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           页面1：封面 (Section 1)
+           ============================================ */
+        #cover {
+            background-color: var(--lime-green);
+        }
+
+        /* 背景装饰 - PORTFOLIO 大字底纹 */
+        .bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25vw;
+            font-weight: 900;
+            color: var(--neon-pink);
+            opacity: 1;
+            letter-spacing: -0.2em;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 左上角 Kim Bian */
+        .top-left {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            font-size: 28px;
+            color: var(--black);
+            font-family: 'Brush Script MT', 'Comic Sans MS', cursive;
+            z-index: 10;
+        }
+
+        /* 右上角 2026 */
+        .top-right {
+            position: absolute;
+            top: 40px;
+            right: 50px;
+            font-size: 28px;
+            color: var(--black);
+            font-family: 'Brush Script MT', 'Comic Sans MS', cursive;
+            z-index: 10;
+        }
+
+        /* 连接横线 */
+        .connect-line {
+            position: absolute;
+            top: 55px;
+            left: 180px;
+            right: 130px;
+            height: 2px;
+            background-color: var(--black);
+            z-index: 10;
+        }
+
+        /* 分类标题 */
+        .section-title {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            font-size: 32px;
+            color: var(--black);
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        /* 中心大标题区域 */
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .year-big {
+            font-size: 180px;
+            color: var(--black);
+            font-family: 'Brush Script MT', 'Comic Sans MS', cursive;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 32px;
+            color: var(--black);
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-weight: 500;
+        }
+
+        /* 左下角联系方式 */
+        .contact-info {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            z-index: 10;
+        }
+
+        .contact-info p {
+            font-size: 14px;
+            color: var(--black);
+            line-height: 1.8;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* 右下角技能列表 */
+        .skills {
+            position: absolute;
+            bottom: 50px;
+            right: 120px;
+            z-index: 10;
+            text-align: right;
+        }
+
+        .skills p {
+            font-size: 16px;
+            color: var(--black);
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* 前进三角形图标 */
+        .nav-arrows {
+            position: absolute;
+            bottom: 55px;
+            right: 50px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+
+        .arrow-right {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid var(--black);
+        }
+
+        /* ============================================
+           页面2-4：作品分类页通用样式
+           ============================================ */
+        .work-section {
+            background-color: var(--lime-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            padding: 0 100px;
+        }
+
+        /* 作品卡片容器 */
+        .work-card {
+            width: 400px;
+            height: 400px;
+            background-color: var(--neon-pink);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .work-card:hover {
+            transform: scale(1.02);
+        }
+
+        /* 卡片内图片 */
+        .work-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 分类标题 */
+        .category-title {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            font-size: 28px;
+            color: var(--black);
+            font-family: 'Brush Script MT', 'Comic Sans MS', cursive;
+            white-space: nowrap;
+        }
+
+        /* ============================================
+           页面5：封底 (Section 5)
+           ============================================ */
+        #back-cover {
+            background-color: var(--neon-pink);
+        }
+
+        /* 底部荧光绿横条 */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background-color: var(--lime-green);
+        }
+
+        /* 封底中心文字区域 */
+        .back-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .left-text {
+            text-align: right;
+        }
+
+        .left-text .thanks-label {
+            font-size: 24px;
+            color: var(--black);
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-weight: 500;
+            margin-bottom: 120px;
+        }
+
+        .left-text .contact-label {
+            font-size: 24px;
+            color: var(--black);
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-weight: 500;
+        }
+
+        .thanks-text {
+            font-size: 42px;
+            color: var(--lime-green);
+            font-family: 'Brush Script MT', 'Comic Sans MS', cursive;
+            line-height: 1.4;
+            letter-spacing: 3px;
+        }
+
+        .thanks-text .black-note {
+            color: var(--black);
+            font-size: 24px;
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin-left: 10px;
+        }
+
+        /* 后退三角形图标 */
+        .nav-arrows-back {
+            position: absolute;
+            bottom: 110px;
+            right: 50px;
+            z-index: 10;
+            display: flex;
+            gap: 8px;
+        }
+
+        .arrow-left {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 15px solid var(--black);
+        }
+
+        /* ============================================
+           图片放大弹窗
+           ============================================ */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* ============================================
+           返回顶部按钮
+           ============================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--neon-pink);
+            border: 2px solid var(--black);
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--lime-green);
+        }
+
+        .back-to-top::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid var(--black);
+        }
+
+        /* ============================================
+           移动端适配
+           ============================================ */
+        @media (max-width: 768px) {
+            .year-big {
+                font-size: 100px;
+            }
+
+            .subtitle {
+                font-size: 20px;
+            }
+
+            .work-section {
+                flex-direction: column;
+                gap: 40px;
+                padding: 40px 20px;
+            }
+
+            .work-card {
+                width: 280px;
+                height: 280px;
+            }
+
+            .category-title {
+                top: -35px;
+                font-size: 20px;
+            }
+
+            .thanks-text {
+                font-size: 24px;
+            }
+
+            .bg-text {
+                font-size: 20vw;
+            }
+
+            .top-left, .top-right {
+                font-size: 20px;
+            }
+
+            .connect-line {
+                top: 50px;
+                left: 130px;
+                right: 100px;
+            }
+
+            .contact-info, .skills {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         页面1：封面
+         ============================================ -->
+    <section id="cover">
+        <!-- 背景装饰大字 -->
+        <div class="bg-text">PORTFOLIO</div>
+
+        <!-- 顶部左右标识 -->
+        <div class="top-left">Kim Bian</div>
+        <div class="top-right">2026</div>
+        <div class="connect-line"></div>
+
+        <!-- 中心大标题 -->
+        <div class="center-content">
+            <div class="year-big">2026</div>
+            <div class="subtitle">个人（作品集）</div>
+        </div>
+
+        <!-- 左下角联系方式 -->
+        <div class="contact-info">
+            <p>TEL/15397496544</p>
+            <p>WECHAT/BZT20050311</p>
+            <p>E-MALL/3176950295@qq.com</p>
+        </div>
+
+        <!-- 右下角技能列表 -->
+        <div class="skills">
+            <p>Adobe InDesign</p>
+            <p>Adobe Photoshop</p>
+            <p>Adobe Illustrator</p>
+        </div>
+
+        <!-- 前进箭头 -->
+        <div class="nav-arrows">
+            <div class="arrow-right"></div>
+            <div class="arrow-right"></div>
+            <div class="arrow-right"></div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         页面2：海报设计
+         ============================================ -->
+    <section id="poster" class="work-section">
+        <!-- 分类标题 -->
+        <div class="section-title">海报设计</div>
+        <!-- 左侧作品卡片 -->
+        <div class="work-card" onclick="openLightbox(this)">
+            <!-- 此处替换为海报作品图1 -->
+            <img src="./图片/海报1.PNG" alt="海报作品1">
+        </div>
+
+        <!-- 右侧作品卡片 -->
+        <div class="work-card" onclick="openLightbox(this)">
+            <!-- 此处替换为海报作品图2 -->
+            <img src="./图片/海报2.PNG" alt="海报作品2">
+        </div>
+    </section>
+
+    <!-- ============================================
+         页面3：信息图表设计
+         ============================================ -->
+    <section id="infographic" class="work-section">
+        <!-- 分类标题 -->
+        <div class="section-title">信息图表设计</div>
+        <!-- 左侧作品卡片 -->
+        <div class="work-card" onclick="openLightbox(this)">
+            <!-- 此处替换为信息图表作品图1 -->
+            <img src="./图片/信息图表1.PNG" alt="信息图表作品1">
+        </div>
+
+        <!-- 右侧作品卡片 -->
+        <div class="work-card" onclick="openLightbox(this)">
+            <!-- 此处替换为信息图表作品图2 -->
+            <img src="./图片/信息图表2.PNG" alt="信息图表作品2">
+        </div>
+    </section>
+
+    <!-- ============================================
+         页面4：包装设计
+         ============================================ -->
+    <section id="packaging" class="work-section">
+        <!-- 分类标题 -->
+        <div class="section-title">包装设计</div>
+        <!-- 左侧作品卡片 -->
+        <div class="work-card" onclick="openLightbox(this)">
+            <!-- 此处替换为包装作品图1 -->
+            <img src="./图片/包装1.PNG" alt="包装作品1">
+        </div>
+
+        <!-- 右侧作品卡片 -->
+        <div class="work-card" onclick="openLightbox(this)">
+            <!-- 此处替换为包装作品图2 -->
+            <img src="./图片/包装2.PNG" alt="包装作品2">
+        </div>
+    </section>
+
+    <!-- ============================================
+         页面5：封底
+         ============================================ -->
+    <section id="back-cover">
+        <!-- 顶部左右标识 -->
+        <div class="top-left">Kim Bian</div>
+        <div class="top-right">2026</div>
+        <div class="connect-line"></div>
+
+        <!-- 中心感谢文字 -->
+        <div class="back-content">
+            <div class="left-text">
+                <div class="thanks-label">感谢</div>
+                <div class="contact-label">期待与您</div>
+            </div>
+            <div class="thanks-text">
+                THANKS<br>
+                FOR<br>
+                WATCHING<span class="black-note">（观看）</span><br>
+                LOOKING<br>
+                FORWARD TO<br>
+                CONTACTING<br>
+                YOU<span class="black-note">（联系）</span>
+            </div>
+        </div>
+
+        <!-- 后退箭头 -->
+        <div class="nav-arrows-back">
+            <div class="arrow-left"></div>
+            <div class="arrow-left"></div>
+            <div class="arrow-left"></div>
+        </div>
+
+        <!-- 底部荧光绿横条 -->
+        <div class="bottom-bar"></div>
+    </section>
+
+    <!-- ============================================
+         图片放大弹窗
+         ============================================ -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="放大图片">
+    </div>
+
+    <!-- ============================================
+         返回顶部按钮
+         ============================================ -->
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()"></div>
+
+    <!-- ============================================
+         JavaScript 交互功能
+         ============================================ -->
+    <script>
+        /**
+         * 打开图片放大弹窗
+         * @param {HTMLElement} card - 被点击的卡片元素
+         */
+        function openLightbox(card) {
+            const img = card.querySelector('img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * 关闭图片放大弹窗
+         */
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        /**
+         * 平滑滚动到页面顶部
+         */
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        /**
+         * 监听滚动事件，控制返回顶部按钮显示/隐藏
+         */
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > window.innerHeight * 0.5) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        /**
+         * 键盘ESC键关闭弹窗
+         */
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+
+</body>
+</html>
